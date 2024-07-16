@@ -42,26 +42,28 @@ app.post('/api/notes', (req, res) => {
     const uuidGenerator = uuid()
     // get contents of db.json, by reading it, store that in an array variable, get the new post, then push that to the array of objects in db.json and 
     const newNote = {
+        // creates a unique id 
         id: uuidGenerator,
         title: req.body.title,
         text: req.body.text
     };
 
-    fs.readFile('./db/db.json', (err, data) => {
-        const prevArr = JSON.parse(data)
-        console.log(prevArr)
-        prevArr.push(newNote)
 
-        console.log(typeof(prevArr))
-        res.send(JSON.parse(data))
+    // Can you have the write file in the read file function so it can recognize the variable?
+    fs.readFile('./db/db.json', "utf8", (err, data) => {
+        if (err) {
+            throw Error(`Error: ${err}`)
+        }
+        const arrNotes = JSON.parse(data)
+
+        arrNotes.push(newNote)
+        console.log(arrNotes)
+        
+        fs.writeFile('./db/db.json', JSON.stringify(arrNotes), () => {
+            console.log("Note added to db.json")
+        })
+        res.json("New note added")
     })
-    fs.writeFile('./db/db.json', (prevArr) => {
-
-    })
-    res.json()
-
-    // look into npm packages that can give the notes unique ids uuid
-    // https://www.npmjs.com/package/generate-unique-id
 })
 
 // any route that isn't explicitly defined will default to this api call usually shows the 404 page
