@@ -11,6 +11,8 @@ const { title } = require('process')
 
 const fs = require('fs')
 
+const uuid = require('generate-unique-id');
+
 app.use(express.json())
 
 app.use(express.urlencoded({
@@ -37,11 +39,25 @@ app.get('/api/notes', (req, res) => {
 })
 
 app.post('/api/notes', (req, res) => {
+    const uuidGenerator = uuid()
     // get contents of db.json, by reading it, store that in an array variable, get the new post, then push that to the array of objects in db.json and 
+    const newNote = {
+        id: uuidGenerator,
+        title: req.body.title,
+        text: req.body.text
+    };
+
     fs.readFile('./db/db.json', (err, data) => {
+        const prevArr = data
+        console.log(prevArr)
+        prevArr.push(newNote)
+        
+        console.log(typeof(prevArr))
         res.send(JSON.parse(data))
     })
-    fs.writeFile('')
+    fs.writeFile('./db/db.json', (prevArr) => {
+
+    })
     res.json()
 
     // look into npm packages that can give the notes unique ids uuid
