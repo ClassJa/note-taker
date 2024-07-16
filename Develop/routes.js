@@ -38,6 +38,9 @@ app.get('/api/notes', (req, res) => {
 
 app.post('/api/notes', (req, res) => {
     // get contents of db.json, by reading it, store that in an array variable, get the new post, then push that to the array of objects in db.json and 
+    fs.readFile('./db/db.json', (err, data) => {
+        res.send(JSON.parse(data))
+    })
     fs.writeFile('')
     res.json()
 
