@@ -48,10 +48,10 @@ app.post('/api/notes', (req, res) => {
     };
 
     fs.readFile('./db/db.json', (err, data) => {
-        const prevArr = data
+        const prevArr = JSON.parse(data)
         console.log(prevArr)
         prevArr.push(newNote)
-        
+
         console.log(typeof(prevArr))
         res.send(JSON.parse(data))
     })
