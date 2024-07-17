@@ -67,13 +67,14 @@ app.get('*', (req, res) => {
 
 // creating the bonus delete route
 app.delete('/api/notes/:id', (req, res) => {
-    const id = req.body.id
+    const id = req.params.id
     console.log(id)
-    fs.readFile('./db/db.json', "utf-8", (err, data) => {
+    console.log(req.url)
+    fs.readFile('./db/db.json', (err, data) => {
         if (err) {
             throw Error(`Error: ${err}`)
         }
-        if(req === '/api/notes/'+id) {
+        if(req.url === '/api/notes/'+id) {
             JSON.parse(data).pop(data.id)
             console.log(req)
             console.log(data)
