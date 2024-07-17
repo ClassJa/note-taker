@@ -70,14 +70,15 @@ app.delete('/api/notes/:id', (req, res) => {
     const id = req.params.id
     console.log(id)
     console.log(req.url)
-    fs.readFile('./db/db.json', (err, data) => {
+    fs.readFile('./db/db.json', "utf-8", (err, data) => {
         if (err) {
             throw Error(`Error: ${err}`)
         }
         if(req.url === '/api/notes/'+id) {
-            JSON.parse(data).pop(data.id)
-            console.log(req)
-            console.log(data)
+            data = JSON.parse(data)
+            delete data.id
+            console.log(data.id)
+            console.log(typeof(data))
         }
     })
     res.json(`Note with id:${id} was deleted.`)
