@@ -75,10 +75,16 @@ app.delete('/api/notes/:id', (req, res) => {
             throw Error(`Error: ${err}`)
         }
         if(req.url === '/api/notes/'+id) {
-            data = JSON.parse(data)
-            delete data.id
-            console.log(data.id)
-            console.log(typeof(data))
+            const parsedData = JSON.parse(data)
+            const filteredNotes = parsedData.filter(note => note.id !== id)
+            fs.writeFile('./db/db.json', JSON.stringify(filteredNotes), () => {
+                console.log("Note deleted")
+            })
+            console.log(filteredNotes)
+            // data.pop(id)
+            // delete data.id
+            // console.log(data)
+            // console.log(typeof(data))
         }
     })
     res.json(`Note with id:${id} was deleted.`)
