@@ -66,9 +66,9 @@ app.get('*', (req, res) => {
 })
 
 // creating the bonus delete route
-const id = `:${id}`
-app.delete('/api/notes/'+id, (req, res) => {
-    console.log(req)
+app.delete('/api/notes/:id', (req, res) => {
+    const id = req.body.id
+    console.log(id)
     fs.readFile('./db/db.json', "utf-8", (err, data) => {
         if (err) {
             throw Error(`Error: ${err}`)
@@ -79,6 +79,7 @@ app.delete('/api/notes/'+id, (req, res) => {
             console.log(data)
         }
     })
+    res.json(`Note with id:${id} was deleted.`)
 } )
 
 // starts the server to listen to requests from the frontend
