@@ -1,13 +1,13 @@
 const express = require('express')
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 
 const app = express()
 
-const db = require('./db/db.json')
+// const db = require('./db/db.json')
 
 const path = require('path')
-const { title } = require('process')
+// const { title } = require('process')
 
 const fs = require('fs')
 
@@ -48,10 +48,9 @@ app.post('/api/notes', (req, res) => {
         if (err) {
             throw Error(`Error: ${err}`)
         }
+        // Notes array
         const arrNotes = JSON.parse(data)
-
         arrNotes.push(newNote)
-        console.log(arrNotes)
         
         fs.writeFile('./db/db.json', JSON.stringify(arrNotes), () => {
             console.log("Note added to db.json")
